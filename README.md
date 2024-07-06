@@ -1,1 +1,1 @@
-# VuejsCrashCourse2024
+# Vue.js Crash Course 2024
