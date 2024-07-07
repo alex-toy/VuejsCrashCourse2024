@@ -2,14 +2,19 @@
   <div class="ctr">
     
     <Questions 
-      v-if="questionsAnsweredCount < questions.length"
-      :questions="questions"
-      :questionsAnsweredCount="questionsAnsweredCount"
+        v-if="questionsAnsweredCount < questions.length"
+        :questions="questions"
+        :questionsAnsweredCount="questionsAnsweredCount"
+        @question-answered="handleQuestionAnswered"
     />
 
-    <Results v-else />
+    <Results v-else :results="results" :totalCorrectCount="totalCorrectCount"/>
 
-    <button type="button" class="reset-btn">Reset</button>
+    <button type="button" class="reset-btn" 
+        @click.prevent="reset"
+        v-if="this.questionsAnsweredCount === questions.length"
+        >Reset
+    </button>
 </div>
 </template>
 
@@ -20,9 +25,20 @@ import Results from "./components/Results.vue";
 export default {
   name : 'App',
   components : {Questions, Results},
+  methods : {
+    handleQuestionAnswered(is_correct){
+        if (is_correct) this.totalCorrectCount++;
+        this.questionsAnsweredCount++;
+    },
+    reset() {
+        this.questionsAnsweredCount = 0;
+        this.totalCorrectCount = 0;
+    }
+  },
   data() {
     return {
       questionsAnsweredCount : 0,
+      totalCorrectCount : 0,
       questions: [
           {
               q: 'What is 2 + 2?', 

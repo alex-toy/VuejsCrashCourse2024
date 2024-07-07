@@ -1,32 +1,32 @@
 <template>
     <div class="questions-ctr">
-        <div class="progress">
-            <div class="bar"></div>
-            <div class="status">1 out of 3 questions answered</div>
-        </div>
-        <div class="single-question" 
-            v-for="(question, index) in questions" 
-            :key="question.q" 
-            v-show="questionsAnsweredCount === index">
-            <div class="question">{{ question.q }}</div>
-            <div class="answers">
-                <div class="answer" 
-                    v-for="answer in question.answers" 
-                    :key="answer"
-                    @click.prevent="selectAnswer">
-                    {{ answer.text }}
-                </div>
-            </div>
-        </div>
+
+        <ProgressBar :questionsAnsweredCount="questionsAnsweredCount" :totalQuestionsCount="questions.length"/>
+
+        <transition-group name="fade">
+            <Question
+                v-for="(question, index) in questions" 
+                :key="question.q"
+                :question="question"
+                :selectAnswer="selectAnswer"
+                v-show="questionsAnsweredCount === index" 
+            />
+        </transition-group>
+            
     </div>
 </template>
 
 <script>
+import ProgressBar from "./ProgressBar.vue";
+import Question from "./Question.vue";
+
 export default {
     props : ['questions', 'questionsAnsweredCount'],
+    components : {ProgressBar, Question},
+    emits : ['question-answered'],
     methods : {
-        selectAnswer() {
-            
+        selectAnswer(is_correct) {
+            this.$emit('question-answered', is_correct)
         }
     }
 }
