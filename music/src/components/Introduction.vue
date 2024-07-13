@@ -6,12 +6,13 @@
     ></div>
     <div class="container mx-auto">
       <div class="text-white main-header-content">
-        <h1 class="font-bold text-5xl mb-5">Listen to Great Music!</h1>
+        <h1 class="font-bold text-5xl mb-5">Listen to Great Music! {{ user.name }}</h1>
         <p class="w-full md:w-8/12 mx-auto">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et dolor mollis, congue
           augue non, venenatis elit. Nunc justo eros, suscipit ac aliquet imperdiet, venenatis et
           sapien. Duis sed magna pulvinar, fringilla lorem eget, ullamcorper urna.
         </p>
+        <p>{{ user.email }} {{ user.age }}</p>
       </div>
     </div>
 
@@ -23,7 +24,15 @@
 </template>
 
 <script>
+import { mapState, mapWritableState } from 'pinia'
+import useModalStore from '../stores/modal'
+
 export default {
-  name: 'Introduction'
+  name: 'Introduction',
+  computed: {
+    ...mapState(useModalStore, ['hiddenClass']),
+    ...mapWritableState(useModalStore, ['isOpen', 'user'])
+  },
+  methods: {}
 }
 </script>
