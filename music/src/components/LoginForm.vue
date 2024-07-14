@@ -39,16 +39,16 @@ export default {
       get() {
         return this.emailInput
       },
-      set(emailInputValue) {
-        this.$emit('update:emailInput', emailInputValue)
+      set(newValue) {
+        this.$emit('updateEmailInput', newValue)
       }
     },
     passwordInputValue: {
       get() {
         return this.passwordInput
       },
-      set(passwordInputValue) {
-        this.$emit('update:ageInput', passwordInputValue)
+      set(newValue) {
+        this.$emit('updateAgeInput', newValue)
       }
     }
   },

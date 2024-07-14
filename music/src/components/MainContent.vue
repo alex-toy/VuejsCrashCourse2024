@@ -1,15 +1,14 @@
 <template>
   <section class="container mx-auto">
     <div class="bg-white rounded border border-gray-200 relative flex flex-col">
-      <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
-        <span class="card-title">Songs</span>
-        <i class="fa fa-headphones-alt float-right text-green-400 text-xl"></i>
-      </div>
+      <slot name="songHeader" :title="title" :iconClass="iconClass"></slot>
       <ol id="playlist">
         <SongItem
-          :artistName="'ramazzotti'"
-          :songTitle="'laura ti amo'"
-          :messageCount="15"
+          v-for="song in songs"
+          :key="song.name"
+          :artistName="song.artist"
+          :songTitle="song.title"
+          :messageCount="song.messageCount"
         ></SongItem>
       </ol>
     </div>
@@ -21,6 +20,17 @@ import SongItem from './SongItem.vue'
 
 export default {
   components: { SongItem },
-  name: 'MainContent'
+  name: 'MainContent',
+  data() {
+    return {
+      songs: [
+        { title: 'ti amo', artist: 'laura pausini', messageCount: 3 },
+        { title: 'ti odio', artist: 'fiorella', messageCount: 12 },
+        { title: 'amore', artist: 'eros ramazzotti', messageCount: 9 }
+      ],
+      title: 'Song',
+      iconClass: 'fa-headphones-alt'
+    }
+  }
 }
 </script>

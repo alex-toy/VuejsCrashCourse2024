@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 export default defineStore('modal', {
   state: () => ({
     isOpen: false,
+    isValidationFormOpen: false,
     user: {
       name: 'alex',
       email: 'alex@test.fr',
@@ -11,7 +12,7 @@ export default defineStore('modal', {
   }),
   getters: {
     hiddenClass(state) {
-      return state.isOpen ? '' : 'hidden'
+      return state.isOpen || state.isValidationFormOpen ? '' : 'hidden'
     }
   },
   actions: {

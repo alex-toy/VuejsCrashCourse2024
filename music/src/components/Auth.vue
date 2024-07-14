@@ -45,17 +45,31 @@
                 >Register</a
               >
             </li>
+            <li class="flex-auto text-center">
+              <a
+                class="block rounded py-3 px-4 transition"
+                href="#"
+                @click.prevent="tab = 'validation'"
+                :class="{
+                  'hover:text-white text-white bg-blue-600': tab === 'validation',
+                  'hover:text-blue-600': tab === 'login'
+                }"
+                >Validation</a
+              >
+            </li>
           </ul>
 
           <LoginForm
-            v-show="tab === 'login'"
+            v-show="tab === 'login' && isOpen"
             :emailInput="emailInput"
             :passwordInput="passwordInput"
             :tab="tab"
+            @updateEmailInput="(value) => (emailInput = value)"
+            @updateAgeInput="(value) => (ageInput = value)"
           ></LoginForm>
 
           <RegistrationForm
-            v-show="tab === 'register'"
+            v-show="tab === 'register' && isOpen"
             :nameInput="nameInput"
             :emailInput="emailInput"
             :ageInput="ageInput"
@@ -64,6 +78,17 @@
             @updateEmailInput="(value) => (emailInput = value)"
             @updateAgeInput="(value) => (ageInput = value)"
           ></RegistrationForm>
+
+          <ValidationForm
+            v-show="tab === 'validation' && isOpen"
+            :nameInput="nameInput"
+            :emailInput="emailInput"
+            :ageInput="ageInput"
+            :tab="tab"
+            @updateNameInput="(value) => (nameInput = value)"
+            @updateEmailInput="(value) => (emailInput = value)"
+            @updateAgeInput="(value) => (ageInput = value)"
+          ></ValidationForm>
         </div>
       </div>
     </div>
@@ -74,13 +99,15 @@
 import { mapState, mapWritableState } from 'pinia'
 import useModalStore from '../stores/modal'
 import RegistrationForm from './RegistrationForm.vue'
+import ValidationForm from './validation/ValidationForm.vue'
 import LoginForm from './LoginForm.vue'
 
 export default {
   name: 'Auth',
   components: {
     RegistrationForm,
-    LoginForm
+    LoginForm,
+    ValidationForm
   },
   data() {
     return {

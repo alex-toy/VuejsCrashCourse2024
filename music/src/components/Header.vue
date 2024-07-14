@@ -6,10 +6,14 @@
 
       <div class="flex flex-grow items-center">
         <ul class="flex flex-row mt-1">
-          <!-- Navigation Links -->
           <li>
             <a class="px-2 text-white" href="#" @click.prevent="toggleAuthModal"
               >Login / Register</a
+            >
+          </li>
+          <li>
+            <a class="px-2 text-white" href="#" @click.prevent="toggleValidationFormModal"
+              >Validation form</a
             >
           </li>
           <li>
@@ -29,11 +33,14 @@ export default {
   name: 'Header',
   computed: {
     ...mapState(useModalStore, ['hiddenClass']),
-    ...mapWritableState(useModalStore, ['isOpen'])
+    ...mapWritableState(useModalStore, ['isOpen', 'isValidationFormOpen'])
   },
   methods: {
     toggleAuthModal() {
       this.isOpen = !this.isOpen
+    },
+    toggleValidationFormModal() {
+      this.isValidationFormOpen = !this.isValidationFormOpen
     }
   }
 }
