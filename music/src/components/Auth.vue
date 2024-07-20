@@ -59,14 +59,7 @@
             </li>
           </ul>
 
-          <LoginForm
-            v-show="tab === 'login' && isOpen"
-            :emailInput="emailInput"
-            :passwordInput="passwordInput"
-            :tab="tab"
-            @updateEmailInput="(value) => (emailInput = value)"
-            @updateAgeInput="(value) => (ageInput = value)"
-          ></LoginForm>
+          <LoginForm v-show="tab === 'login' && isOpen" :tab="tab"></LoginForm>
 
           <RegistrationForm
             v-show="tab === 'register' && isOpen"

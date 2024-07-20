@@ -1,22 +1,28 @@
 <template>
-  <form>
+  <VeeForm :validation-schema="loginSchema" @submit="login">
     <div class="mb-3">
       <label class="inline-block mb-2">Email</label>
-      <input
+      <VeeField
         type="email"
+        name="email"
         class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-        v-model="emailInputValue"
+        v-model="emailInput"
       />
+      <ErrorMessage class="text-red-600" name="email" />
     </div>
-    <!-- Password -->
+
     <div class="mb-3">
       <label class="inline-block mb-2">Password</label>
-      <input
-        type="password"
-        class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-        placeholder="Password"
-        v-model="passwordInputValue"
-      />
+      <vee-field name="password" :bails="false" v-slot="{ field, errors }">
+        <input
+          type="password"
+          class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
+          placeholder="Password"
+          v-bind="field"
+          v-model="passwordInput"
+        />
+        <div class="red-text-600" v-for="error in errors" :key="error">{{ error }}</div>
+      </vee-field>
     </div>
     <button
       type="submit"
@@ -24,34 +30,30 @@
     >
       Submit
     </button>
-  </form>
+  </VeeForm>
 </template>
 
 <script>
+import { ErrorMessage } from 'vee-validate'
+
 export default {
   name: 'LoginForm',
-  props: ['emailInput', 'passwordInput', 'tab'],
+  components: { ErrorMessage },
+  props: ['tab'],
   data() {
-    return {}
-  },
-  computed: {
-    emailInputValue: {
-      get() {
-        return this.emailInput
-      },
-      set(newValue) {
-        this.$emit('updateEmailInput', newValue)
-      }
-    },
-    passwordInputValue: {
-      get() {
-        return this.passwordInput
-      },
-      set(newValue) {
-        this.$emit('updateAgeInput', newValue)
+    return {
+      emailInput: '',
+      passwordInput: '',
+      loginSchema: {
+        email: 'required|email',
+        password: 'required'
       }
     }
   },
-  methods: {}
+  methods: {
+    login(values) {
+      console.log(values)
+    }
+  }
 }
 </script>
