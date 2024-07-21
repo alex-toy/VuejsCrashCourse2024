@@ -3,13 +3,17 @@ import { auth, usersCollection } from '@/includes/firebase'
 
 export default defineStore('user', {
   state: () => ({
-    isLoggedIn: false
+    isLoggedIn: false,
+    userName: ''
   }),
   actions: {
     async register(values) {
-      await auth.createUserWithEmailAndPassword(this.emailInput, this.passwordInput)
+      const userCredentials = await auth.createUserWithEmailAndPassword(
+        values.email,
+        values.password
+      )
 
-      await usersCollection.add({
+      await usersCollection.doc(userCredentials.user.uid).set({
         name: values.name,
         email: values.email,
         age: values.age,
@@ -17,7 +21,24 @@ export default defineStore('user', {
         profession: values.profession
       })
 
+      await userCredentials.user.updateProfile({
+        displayName: values.name
+      })
+
       this.isLoggedIn = true
+      this.userName = values.name
+    },
+    async login(values) {
+      const response = await auth.signInWithEmailAndPassword(values.email, values.password)
+
+      this.isLoggedIn = true
+      this.userName = response.user.displayName
+    },
+    async logout() {
+      await auth.signOut()
+
+      this.isLoggedIn = false
+      this.userName = ''
     }
   }
 })

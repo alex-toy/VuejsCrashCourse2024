@@ -1,5 +1,5 @@
 <template>
-  <VeeForm :validation-schema="loginSchema" @submit="login">
+  <VeeForm :validation-schema="loginSchema" @submit="logUser">
     <div
       v-if="login_show_alert"
       :class="login_alert_variant"
@@ -45,6 +45,8 @@
 
 <script>
 import { ErrorMessage } from 'vee-validate'
+import { mapActions } from 'pinia'
+import useUserStore from '@/stores/user'
 
 export default {
   name: 'LoginForm',
@@ -65,15 +67,33 @@ export default {
     }
   },
   methods: {
-    login(values) {
-      console.log(values)
+    ...mapActions(useUserStore, { login: 'login' }),
+    async logUser(values) {
+      this.setUserLoggingPending()
+
+      try {
+        await this.login(values)
+      } catch (error) {
+        this.setUserLoggingError(error.message)
+      }
+
+      this.setUserLoggingSuccess()
+    },
+    setUserLoggingPending() {
       this.login_show_alert = true
       this.login_in_submission = true
       this.login_alert_variant = 'bg-blue-500'
-      this.login_alert_message = 'Please wait! Your account is being created.'
-
-      this.login_alert_variant = 'bg-green-500'
-      this.login_alert_message = 'Success! You are now logged in.'
+      this.login_alert_message = 'Please wait! We are logging you in.'
+    },
+    setUserLoggingError(message) {
+      this.login_in_submission = false
+      this.login_alert_variant = 'bg-red-500'
+      this.login_alert_message = `Error : ${message}`
+    },
+    setUserLoggingSuccess() {
+      this.login_in_submission = false
+      this.login_alert_variant = 'bg-blue-500'
+      this.login_alert_message = 'Success! You are logged in.'
     }
   }
 }

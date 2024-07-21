@@ -23,6 +23,9 @@ import Auth from '@/components/AuthForms/Auth.vue'
 import Introduction from '@/components/Introduction.vue'
 import MainContent from '@/components/MainContent.vue'
 import Player from '@/components/Player.vue'
+import { mapWritableState } from 'pinia'
+import useUserStore from '@/stores/user'
+import { auth } from '@/includes/firebase'
 
 export default {
   name: 'App',
@@ -32,6 +35,14 @@ export default {
     Introduction,
     MainContent,
     Player
+  },
+  computed: {
+    ...mapWritableState(useUserStore, ['isLoggedIn'])
+  },
+  created() {
+    if (auth.currentUser) {
+      this.isLoggedIn = true
+    }
   }
 }
 </script>

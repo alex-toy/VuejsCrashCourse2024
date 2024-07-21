@@ -14,7 +14,6 @@
         type="text"
         name="name"
         class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-        v-model="nameInput"
       />
       <ErrorMessage class="text-red-600" name="name" />
     </div>
@@ -25,7 +24,6 @@
         type="email"
         name="email"
         class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-        v-model="emailInput"
       />
       <ErrorMessage class="text-red-600" name="email" />
     </div>
@@ -36,7 +34,6 @@
         type="number"
         name="age"
         class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-        v-model="ageInput"
       />
       <ErrorMessage class="text-red-600" name="age" />
     </div>
@@ -49,7 +46,6 @@
           class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
           placeholder="Password"
           v-bind="field"
-          v-model="passwordInput"
         />
         <div class="red-text-600" v-for="error in errors" :key="error">{{ error }}</div>
       </vee-field>
@@ -128,10 +124,6 @@ export default {
   props: [],
   data() {
     return {
-      nameInput: '',
-      emailInput: '',
-      passwordInput: '',
-      ageInput: 0,
       tab: 'login',
       schema: {
         name: 'required|min:3|max:100|alpha_spaces',
@@ -161,8 +153,7 @@ export default {
       try {
         await this.createUser(values)
       } catch (error) {
-        this.mapActions
-        this.setAccountCreationError()
+        this.setAccountCreationError(error)
         return
       }
 
@@ -174,10 +165,10 @@ export default {
       this.reg_alert_variant = 'bg-blue-500'
       this.reg_alert_message = 'Please wait! Your account is being created.'
     },
-    setAccountCreationError() {
+    setAccountCreationError(error) {
       this.reg_in_submission = false
       this.reg_alert_variant = 'bg-red-500'
-      this.reg_alert_message = 'Error! Account creation failed.'
+      this.reg_alert_message = `Account creation failed : ${error.message}`
     },
     setAccountCreationSuccess() {
       this.reg_alert_variant = 'bg-green-500'
