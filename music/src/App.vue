@@ -19,7 +19,7 @@
 
 <script>
 import Header from '@/components/Header.vue'
-import Auth from '@/components/Auth.vue'
+import Auth from '@/components/AuthForms/Auth.vue'
 import Introduction from '@/components/Introduction.vue'
 import MainContent from '@/components/MainContent.vue'
 import Player from '@/components/Player.vue'

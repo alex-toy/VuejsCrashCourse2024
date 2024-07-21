@@ -33,28 +33,17 @@
                 >Login</a
               >
             </li>
+
             <li class="flex-auto text-center">
               <a
                 class="block rounded py-3 px-4 transition"
                 href="#"
-                @click.prevent="tab = 'register'"
+                @click.prevent="tab = 'registration'"
                 :class="{
-                  'hover:text-white text-white bg-blue-600': tab === 'register',
+                  'hover:text-white text-white bg-blue-600': tab === 'registration',
                   'hover:text-blue-600': tab === 'login'
                 }"
-                >Register</a
-              >
-            </li>
-            <li class="flex-auto text-center">
-              <a
-                class="block rounded py-3 px-4 transition"
-                href="#"
-                @click.prevent="tab = 'validation'"
-                :class="{
-                  'hover:text-white text-white bg-blue-600': tab === 'validation',
-                  'hover:text-blue-600': tab === 'login'
-                }"
-                >Validation</a
+                >Registration</a
               >
             </li>
           </ul>
@@ -62,7 +51,7 @@
           <LoginForm v-show="tab === 'login' && isOpen" :tab="tab"></LoginForm>
 
           <RegistrationForm
-            v-show="tab === 'register' && isOpen"
+            v-show="tab === 'registration' && isOpen"
             :nameInput="nameInput"
             :emailInput="emailInput"
             :ageInput="ageInput"
@@ -71,17 +60,6 @@
             @updateEmailInput="(value) => (emailInput = value)"
             @updateAgeInput="(value) => (ageInput = value)"
           ></RegistrationForm>
-
-          <ValidationForm
-            v-show="tab === 'validation' && isOpen"
-            :nameInput="nameInput"
-            :emailInput="emailInput"
-            :ageInput="ageInput"
-            :tab="tab"
-            @updateNameInput="(value) => (nameInput = value)"
-            @updateEmailInput="(value) => (emailInput = value)"
-            @updateAgeInput="(value) => (ageInput = value)"
-          ></ValidationForm>
         </div>
       </div>
     </div>
@@ -90,17 +68,15 @@
 
 <script>
 import { mapState, mapWritableState } from 'pinia'
-import useModalStore from '../stores/modal'
+import useModalStore from '../../stores/modal'
 import RegistrationForm from './RegistrationForm.vue'
-import ValidationForm from './validation/ValidationForm.vue'
 import LoginForm from './LoginForm.vue'
 
 export default {
   name: 'Auth',
   components: {
-    RegistrationForm,
     LoginForm,
-    ValidationForm
+    RegistrationForm
   },
   data() {
     return {

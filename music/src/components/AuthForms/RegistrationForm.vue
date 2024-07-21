@@ -119,6 +119,8 @@
 
 <script>
 import { ErrorMessage } from 'vee-validate'
+import { mapActions } from 'pinia'
+import useUserStore from '@/stores/user'
 
 export default {
   name: 'RegistrationForm',
@@ -151,17 +153,39 @@ export default {
       reg_alert_message: 'Please wait! Your account is being created.'
     }
   },
-  computed: {},
   methods: {
-    register(values) {
-      console.log(values)
+    ...mapActions(useUserStore, { createUser: 'register' }),
+    async register(values) {
+      this.setAccountCreationPending()
+
+      try {
+        await this.createUser(values)
+      } catch (error) {
+        this.mapActions
+        this.setAccountCreationError()
+        return
+      }
+
+      this.setAccountCreationSuccess()
+    },
+    setAccountCreationPending() {
       this.reg_show_alert = true
       this.reg_in_submission = true
       this.reg_alert_variant = 'bg-blue-500'
       this.reg_alert_message = 'Please wait! Your account is being created.'
-
+    },
+    setAccountCreationError() {
+      this.reg_in_submission = false
+      this.reg_alert_variant = 'bg-red-500'
+      this.reg_alert_message = 'Error! Account creation failed.'
+    },
+    setAccountCreationSuccess() {
       this.reg_alert_variant = 'bg-green-500'
       this.reg_alert_message = 'Success! Your account has been created.'
+      this.nameInput = ''
+      this.emailInput = ''
+      this.passwordInput = ''
+      this.ageInput = 0
     }
   }
 }
