@@ -1,11 +1,18 @@
 <template>
   <header id="header" class="bg-gray-700">
     <nav class="container mx-auto flex justify-start items-center py-5 px-4">
-      <!-- App Name -->
-      <a class="text-white font-bold uppercase text-2xl mr-4" href="#">Music</a>
+      <router-link
+        class="text-white font-bold uppercase text-2xl mr-4"
+        :to="{ name: 'home' }"
+        exact-active-class="no-active"
+        >Music
+      </router-link>
 
       <div class="flex flex-grow items-center">
         <ul class="flex flex-row mt-1">
+          <li>
+            <router-link class="px-2 text-white" to="/about">About </router-link>
+          </li>
           <li v-if="!isLoggedIn">
             <a class="px-2 text-white" href="#" @click.prevent="toggleAuthModal"
               >Login / Register</a
@@ -13,10 +20,12 @@
           </li>
           <template v-else>
             <li>
-              <a class="px-2 text-white" href="#">Manage</a>
+              <router-link class="px-2 text-white" :to="{ name: 'manage' }">Manage</router-link>
             </li>
             <li>
-              <a class="px-2 text-white" href="#" @click.prevent="logout">Logout</a>
+              <router-link class="px-2 text-white" to="#" @click.prevent="logout"
+                >Logout</router-link
+              >
             </li>
           </template>
         </ul>
@@ -28,7 +37,7 @@
 </template>
 
 <script>
-import { mapState, mapWritableState, mapActions } from 'pinia'
+import { mapState, mapWritableState, mapActions, mapStores } from 'pinia'
 import useModalStore from '../stores/modal'
 import useUserStore from '@/stores/user'
 
@@ -38,7 +47,8 @@ export default {
     ...mapState(useModalStore, ['hiddenClass']),
     ...mapWritableState(useModalStore, ['isOpen', 'isValidationFormOpen']),
     ...mapWritableState(useUserStore, ['userName', 'isLoggedIn']),
-    ...mapActions(useUserStore, { logUserOut: 'logout' })
+    ...mapActions(useUserStore, { logUserOut: 'logout' }),
+    ...mapStores(useModalStore, useUserStore)
   },
   methods: {
     toggleAuthModal() {
@@ -47,8 +57,11 @@ export default {
     toggleValidationFormModal() {
       this.isValidationFormOpen = !this.isValidationFormOpen
     },
-    logout() {
-      this.logUserOut()
+    async logout() {
+      await this.userStore.logout()
+
+      // if (this.$route.name === 'manage') this.$router.push({ name: 'home' })
+      if (this.$route.meta.requiresAuth === true) this.$router.push({ name: 'home' })
     }
   }
 }
