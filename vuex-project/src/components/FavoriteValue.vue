@@ -1,8 +1,6 @@
 <template>
-    <p>Double counter</p>
-    <h3>{{ counter }}</h3>
-    <p>Normalized counter</p>
-    <h3>{{ normalizedCounter }}</h3>
+    <h3>Double counter : {{ counter }}</h3>
+    <h3>Normalized counter : {{ normalizedCounter }}</h3>
 </template>
 
 <script>
@@ -12,7 +10,7 @@ export default {
             return this.$store.getters.doubleCounter;
         },
         normalizedCounter() {
-            return this.$store.getters.normalizedCounter;
+            return this.$store.getters['counter/normalizedCounter'];
         },
     }
 }

@@ -17,16 +17,16 @@ export default {
     methods : {
         addOne() {
             // this.$store.commit('increase', {value : this.incrementValue});
-            this.$store.commit({type : 'increase', value : this.incrementValue});
+            this.$store.commit({type : 'counter/increase', value : this.incrementValue});
         },
         addOneLate() {
             this.$store.dispatch('increment');
         },
         addValueLate() {
-            this.$store.dispatch( 'increment', { value : this.incrementValue });
+            this.$store.dispatch( 'counter/increment', { value : this.incrementValue });
         },
         // ...mapActions(['increment'])
-        ...mapActions({ increment : 'increment'})
+        ...mapActions('counter', { increment : 'increment'})
     }
 }
 </script>

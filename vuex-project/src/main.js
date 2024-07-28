@@ -1,9 +1,8 @@
 import { createApp } from 'vue';
-// import { createStore } from 'vuex';
 
 import App from './App.vue';
 
-import store from '@/stores/counter'
+import store from '@/stores/index'
 
 const app = createApp(App);
 

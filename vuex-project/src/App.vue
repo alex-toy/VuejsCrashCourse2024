@@ -33,12 +33,12 @@ export default {
   },
   computed: {
     counter() {
-      return this.$store.state.counter
+      return this.$counterStore.state.counter
     }
   },
   methods: {
     addOne() {
-      this.$store.commit('increment');
+      this.$store.commit('counter/increment');
     }
   }
 };

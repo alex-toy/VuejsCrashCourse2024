@@ -11,10 +11,10 @@ export default {
   components: {
   },
   computed: {
-    counter() {
-      return this.$store.state.counter;
-    },
-    ...mapGetters(['simpleCounter'])
+    // counter() {
+    //   return this.$store.state.counter;
+    // },
+    ...mapGetters('counter', ['simpleCounter'])
   },
   methods: {
   }

@@ -1,6 +1,4 @@
-import { createStore } from 'vuex';
-
-export default createStore({
+export default  {
     state() {
         return {
             isLoggedIn : false
@@ -20,5 +18,8 @@ export default createStore({
         },
     },
     getters: {
+        isLoggedIn(state) {
+            return state.isLoggedIn;
+        }
     }
-})
+}
