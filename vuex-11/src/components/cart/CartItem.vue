@@ -1,39 +1,41 @@
 <template>
   <li>
     <div>
-      <img :src="image" :alt="title" />
+      <img :src="product.image" :alt="product.title" />
     </div>
     <div>
-      <h3>{{ title }}</h3>
+      <h3>{{ product.title }}</h3>
       <div class="item__data">
         <div>
           Price per Item:
-          <strong>${{ price }}</strong>
+          <strong>${{ product.price }}</strong>
         </div>
         <div>
           Quantity:
-          <strong>{{ qty }}</strong>
+          <strong>{{ product.qty }}</strong>
         </div>
       </div>
       <div class="item__total">Total: ${{ itemTotal }}</div>
-      <button @click="remove">Remove</button>
+      <button @click="remove(product.prodId)">Remove</button>
     </div>
   </li>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
-  inject: ['removeProductFromCart'],
-  props: ['prodId', 'title', 'image', 'price', 'qty'],
+  props: ['product'],
   computed: {
     itemTotal() {
-      return (this.price * this.qty).toFixed(2);
+      return (this.product.price * this.product.qty).toFixed(2);
     }
   },
   methods: {
-    remove() {
-      this.removeProductFromCart(this.prodId);
-    }
+    ...mapActions({ 
+      remove : 'removeProductFromCart', 
+      itemTotal : 'itemTotal'
+    }),
   }
 };
 </script>

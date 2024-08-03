@@ -6,11 +6,7 @@
       <cart-item
         v-for="item in cart.items"
         :key="item.productId"
-        :prod-id="item.productId"
-        :title="item.title"
-        :image="item.image"
-        :price="item.price"
-        :qty="item.qty"
+        :product="{prodId: item.productId, title: item.title, image: item.image, price: item.price, qty: item.qty}"
       ></cart-item>
     </ul>
   </section>
@@ -18,13 +14,14 @@
 
 <script>
 import CartItem from '../components/cart/CartItem.vue';
+import { mapGetters } from 'vuex'
 
 export default {
-  inject: ['cart'],
   components: {
     CartItem,
   },
   computed: {
+    ...mapGetters(['cart']),
     cartTotal() {
       return this.cart.total.toFixed(2);
     }
