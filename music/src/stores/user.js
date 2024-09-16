@@ -29,10 +29,11 @@ export default defineStore('user', {
       this.userName = values.name
     },
     async login(values) {
-      const response = await auth.signInWithEmailAndPassword(values.email, values.password)
-
+      console.log(values)
+      // const response = await auth.signInWithEmailAndPassword(values.email, values.password)
       this.isLoggedIn = true
-      this.userName = response.user.displayName
+      // this.userName = response.user.displayName
+      this.userName = "alex"
     },
     async logout() {
       await auth.signOut()

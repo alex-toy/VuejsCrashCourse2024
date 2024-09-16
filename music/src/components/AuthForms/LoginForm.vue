@@ -58,7 +58,7 @@ export default {
       passwordInput: '',
       loginSchema: {
         email: 'required|email',
-        password: 'required|min:3|max:9'
+        password: 'required|min:3|max:15'
       },
       login_in_submission: false,
       login_show_alert: false,

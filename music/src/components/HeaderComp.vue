@@ -11,7 +11,7 @@
       <div class="flex flex-grow items-center">
         <ul class="flex flex-row mt-1">
           <li>
-            <router-link class="px-2 text-white" to="/about">About </router-link>
+            <router-link class="px-2 text-white" to="/about">About</router-link>
           </li>
           <li v-if="!isLoggedIn">
             <a class="px-2 text-white" href="#" @click.prevent="toggleAuthModal"
